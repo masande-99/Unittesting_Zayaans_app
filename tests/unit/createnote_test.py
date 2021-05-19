@@ -13,4 +13,4 @@ class NoteTest(TestCase):
                 new_note = home("Test")
                 db.session.add(new_note)
                 db.session.commit()
-                self.assertIsNotNone(home.find_by_name("Test"))
+                self.assertIsNotNone(home.find_by_name(data="Test"))
