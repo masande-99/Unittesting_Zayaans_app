@@ -12,10 +12,10 @@ class TestModel(TestCase):
         self.assertEqual(note.id, 1)
 
     def test_work_model(self):
-        work = Work(id=1, title="Test client", description="Test description", date=2021/5/20, user_id=1, status="Test status", points=3)
+        work = Work(id=1, title="Test", description="Test description", date=2021/5/20, user_id=1, status="Test status", points=3)
 
         self.assertEqual(work.id, 1)
-        self.assertEqual(work.title, "Test client")
+        self.assertEqual(work.title, "Test")
         self.assertEqual(work.description, "Test description")
         self.assertEqual(work.date, 2021/5/20)
         self.assertEqual(work.user_id, 1)
