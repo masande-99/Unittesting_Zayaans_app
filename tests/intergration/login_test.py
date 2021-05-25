@@ -6,13 +6,22 @@ from tests.base_test import db
 
 
 class TestLogIn(BaseTest):
-    def test_sign_up_success(self):
+
+    def test_sign_in(self):
         with self.app:
-            response = self.app.post('/sign-up',
-                                     data=dict(email="meh@gmail.com", firstName="Username", password1="1234yyy", password2="1234yyy"), follow_redirects=True)
+            with self.app_context:
+                user = User(id=1, email="blabla@gmail.com", password="Test", first_name="joe", team_id=1, )
+                db.session.add(user)
 
-            user = db.session.query(User).filter_by(email="meh@gmail.com").first()
+                user1 = User.query.filter_by(email="blabla@gmail.com").first()
 
-            self.assertTrue(user)
+                self.assertTrue(user1)
 
-            self.assertIn(b'Account created', response.data)
+                res = self.app.post('/sign-in',
+                                    data=dict(email="blabla@gmail.com", password="Test"))
+
+                self.assertIn(b'<title>\nSign In\n</title>', res.data)
+                print(res)
+
+                # print(res)
+                # self.assertIn(b'Logged in successfully', res.data)
