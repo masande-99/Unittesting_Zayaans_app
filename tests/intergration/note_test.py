@@ -66,10 +66,3 @@ class TestModelIsCrud(BaseTest):
             db.session.commit()
 
             self.assertIsNone(db.session.query(Team).filter_by(name="My team").first())
-
-
-
-
-
-
-
