@@ -86,5 +86,3 @@ class TestSignUp(BaseTest):
                                      data=dict(email="meh@gmail.com", firstName="Username", password1="1234yyy", password2="1234yyy"), follow_redirects=True)
 
             self.assertIn(b'Email already in use', response.data)
-
-

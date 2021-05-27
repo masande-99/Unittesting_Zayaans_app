@@ -24,19 +24,17 @@ def home():
     return render_template('home.html', user=current_user)
 
 
-
 @views.route('/delete-note', methods=['POST'])
 def delete_note():
-    note = json.loads(request.data) # takes data from post req, turns into dictionary
-    noteId = note['noteId'] # gets note id
-    note = Note.query.get(noteId) # search db for note with this id
+    note = json.loads(request.data)  # takes data from post req, turns into dictionary
+    noteId = note['noteId']  # gets note id
+    note = Note.query.get(noteId)  # search db for note with this id
     if note:
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
     
-    return jsonify({}) # return empty response
-
+    return jsonify({})  # return empty response
 
 
 @views.route('/my-team', methods=['GET', 'POST'])
@@ -75,20 +73,16 @@ def my_team():
     return render_template('myteam.html', user=current_user, teams = all_teams, users=all_users)
 
 
-
-
 @views.route('/settings', methods=['GET'])
 @login_required
 def settings():
     return render_template('settings.html', user=current_user)
 
 
-
 @views.route('/my-work', methods=['GET'])
 @login_required
 def my_work():
     return render_template('mywork.html', user=current_user)
-
 
 
 @views.route('/manage-work', methods=['GET', 'POST'])
@@ -104,12 +98,10 @@ def manage_work():
         db.session.add(new_task)
         db.session.commit()
         flash('Work added', category='success')
-    
 
     members = db.session.query(User).filter(User.team_id == current_user.team_id)
     
     return render_template('managework.html', user=current_user, members=members)
-
 
 
 @views.route('/delete-team', methods=['POST'])
@@ -125,7 +117,6 @@ def delete_team():
     return jsonify({}) # return empty response
 
 
-
 @views.route('/join-team', methods=['POST'])
 def join_team():
     team = json.loads(request.data) 
@@ -139,8 +130,7 @@ def join_team():
         db.session.commit()
         flash('You have joined a team', category='success')
 
-    return jsonify({}) # return empty response
-
+    return jsonify({})  # return empty response
 
 
 @views.route('/leave-team', methods=['GET'])

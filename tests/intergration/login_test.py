@@ -11,7 +11,8 @@ class TestLogIn(BaseTest):
         with self.app:
             with self.app_context:
                 response = self.app.post('/sign-up',
-                                         data=dict(email="meh@gmail.com", firstName="Username", password1="1234yyy", password2="1234yyy"), follow_redirects=True)
+                                         data=dict(email="meh@gmail.com", firstName="Username", password1="1234yyy",
+                                                   password2="1234yyy"), follow_redirects=True)
 
                 user = db.session.query(User).filter_by(email="meh@gmail.com").first()
 
@@ -25,6 +26,9 @@ class TestLogIn(BaseTest):
                 self.assertIn(b'Logged in successfully', res.data)
 
                 self.assertEqual(res.status_code, 200)
+
+                # Testing if login route returns correct route
+                self.assertEqual('http://localhost/', request.url)
 
     def test_email_unknown(self):
         with self.app:
@@ -56,3 +60,4 @@ class TestLogIn(BaseTest):
 
                 self.assertIn(b'alert', res.data)
                 self.assertNotEqual(current_user.get_id(), AnonymousUserMixin.get_id(self))
+

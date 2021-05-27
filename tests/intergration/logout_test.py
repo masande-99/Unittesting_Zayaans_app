@@ -29,13 +29,6 @@ class TestLogOut(BaseTest):
                 self.assertIn(b'Account created', response.data)
                 # logging in as the user
 
-                res = self.app.post('/log-in',
-                                    data=dict(email="meh@gmail.com", password="1234yyy"), follow_redirects=True)
-
-                self.assertIn(b'Logged in successfully', res.data)
-
-                self.assertEqual(res.status_code, 200)
-
                 # logging out as the user
 
                 c = self.app.get('/log-out', follow_redirects=True)
@@ -50,10 +43,6 @@ class TestLogOut(BaseTest):
 
                 self.assertEqual(current_user.get_id(), AnonymousUserMixin.get_id(self))
 
-                print(AnonymousUserMixin.get_id(self))
-
-                print(current_user.get_id())
-
                 # logging out if user already logged out
 
                 s = self.app.get('/log-out', follow_redirects=False)
@@ -61,10 +50,12 @@ class TestLogOut(BaseTest):
                 self.assertEqual(s.status_code, 302)
 
     def test_logout_not_eccessed_if_not_logged_in(self):
-        with self.app_context as c:
+        with self.app:
+            with self.app_context as c:
 
-            c = self.app.get('/log-out', follow_redirects=False)
+                c = self.app.get('/log-out', follow_redirects=False)
 
-            self.assertEqual(c.status_code, 302)
+                self.assertEqual(c.status_code, 302)
+
 
 
